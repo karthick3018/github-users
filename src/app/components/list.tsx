@@ -1,6 +1,8 @@
+'use client'
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import Pagination from "../components/pagination";
 
 interface IProps {
     users: Array<userType>
@@ -12,9 +14,24 @@ interface userType {
     type:string;
 }
 export default function List({users}:IProps) {
+   const usersPerPage = 10;
+   const [currentPage,setCurrentPage] = useState(1);
+   const indexOfLastTodo = currentPage * usersPerPage;
+   const indexOfFirstTodo = indexOfLastTodo - usersPerPage;
+   const currentTodos = users?.slice(indexOfFirstTodo, indexOfLastTodo);
+   
+   const handlePageChange = (selectedPage:number) => {
+    setCurrentPage(selectedPage);
+   } 
+
   return (
+   <div>
+     <div className="px-4 py-6 sm:px-6">
+        <h3 className="text-base font-semibold leading-7 text-gray-900">List of Github Users</h3>
+      </div>
+    <div className='p-5'>
     <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {users?.map((eachUser:userType) => (
+      {currentTodos?.map((eachUser:userType) => (
         <Link
           key={eachUser?.id}
           href={`/user/${eachUser?.login}`}
@@ -45,5 +62,13 @@ export default function List({users}:IProps) {
         </Link>
       ))}
     </ul>
+    </div>   
+    <Pagination 
+     total={users?.length} 
+     usersPerPage={usersPerPage}
+     currentPage={currentPage}
+     handlePageChange={handlePageChange}
+    />
+  </div>
   )
 }
