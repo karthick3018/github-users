@@ -1,3 +1,5 @@
+import { LeftArrow } from "./svg/left_arrow";
+import { RightArrow } from "./svg/right_arrow";
 interface IProps {
     total:number;
     usersPerPage:number;
@@ -30,19 +32,24 @@ export default function Pagination({
   return (
     <>
     {total > 0 ? 
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between 
+    border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <a
           href="#"
           onClick={handlePreviousClick}
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative inline-flex items-center 
+          rounded-md border border-gray-300 bg-white px-4 py-2 text-sm 
+          font-medium text-gray-700 hover:bg-gray-50"
         >
           Previous
         </a>
         <a
           href="#"
           onClick={handleNextClick}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative ml-3 inline-flex items-center 
+          rounded-md border border-gray-300 bg-white px-4 py-2 
+          text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Next
         </a>
@@ -53,10 +60,12 @@ export default function Pagination({
             <a
               href="#"
               onClick={handlePreviousClick}
-              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              className="relative inline-flex items-center 
+              rounded-l-md px-2 py-2 text-gray-400 ring-1
+               ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Previous</span>
-              <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm3 5.753l-6.44 5.247 6.44 5.263-.678.737-7.322-6 7.335-6 .665.753z"/></svg>
+              <LeftArrow/>
              
             </a>
             {pageNumbers.map((eachPage=>{
@@ -65,7 +74,13 @@ export default function Pagination({
               key={eachPage}
               onClick={()=>handlePageChange(eachPage)}
               aria-current="page"
-              className={`relative z-10 inline-flex items-center ${currentPage === eachPage ?'bg-indigo-600':'bg-gray-600'} px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 hover:cursor-pointer`}
+              className={`
+              relative z-10 
+              inline-flex items-center ${currentPage === eachPage ?'bg-indigo-600':'bg-gray-600'}
+               px-4 py-2 text-sm font-semibold
+                text-white focus:z-20 focus-visible:outline 
+                focus-visible:outline-2 focus-visible:outline-offset-2
+                 focus-visible:outline-indigo-600 hover:cursor-pointer`}
             >
               {eachPage}
             </a>
@@ -75,10 +90,12 @@ export default function Pagination({
             <a
               href="#"
               onClick={handleNextClick}
-              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              className="relative inline-flex items-center 
+              rounded-r-md px-2 py-2 text-gray-400 ring-1 
+              ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Next</span>
-              <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm-3 5.753l6.44 5.247-6.44 5.263.678.737 7.322-6-7.335-6-.665.753z"/></svg>
+              <RightArrow />
             </a>
           </nav>
         </div>
