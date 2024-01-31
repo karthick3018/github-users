@@ -1,12 +1,12 @@
 'use client'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Link from 'next/link';
-import Pagination from "../components/pagination";
 import NameCard from "../components/name_card";
 import { LIST } from '../helpers/constants';
+import { useInView } from "react-intersection-observer";
 
 interface IProps {
-    users: Array<userType>
+    getUsersData:(page:number) => Promise<any>
 }
 interface userType {
     id: string;
@@ -14,16 +14,28 @@ interface userType {
     login:string;
     type:string;
 }
-export default function List({users}:IProps) {
-   const usersPerPage = 10;
+export default function List({getUsersData}:IProps) {
+   const { ref, inView } = useInView();
    const [currentPage,setCurrentPage] = useState(1);
-   const indexOfLastTodo = currentPage * usersPerPage;
-   const indexOfFirstTodo = indexOfLastTodo - usersPerPage;
-   const currentTodos = users?.slice(indexOfFirstTodo, indexOfLastTodo);
+   const [users,setUsers] = useState<Array<userType>>([]);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        if (inView) {
+          const users:Array<userType> = await getUsersData(currentPage);
+          setUsers(prevUser=> [...prevUser,...users]);
+          setCurrentPage(prevPage => prevPage*10)
+        }
+      } catch (error) {
+        console.error('Fetching user error')
+      }
+    }
+
+    fetchUserData();
+  }, [inView]);
    
-   const handlePageChange = (selectedPage:number) => {
-    setCurrentPage(selectedPage);
-   } 
+
 
   return (
    <div>
@@ -32,7 +44,7 @@ export default function List({users}:IProps) {
       </div>
     <div className='p-5'>
     <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {currentTodos?.map((eachUser:userType) => (
+      {users?.map((eachUser:userType) => (
         <Link
           key={eachUser?.id}
           href={`/user/${eachUser?.login}`}
@@ -47,13 +59,8 @@ export default function List({users}:IProps) {
         </Link>
       ))}
     </ul>
+    <div ref={ref}></div>
     </div>   
-    <Pagination 
-     total={users?.length} 
-     usersPerPage={usersPerPage}
-     currentPage={currentPage}
-     handlePageChange={handlePageChange}
-    />
   </div>
   )
 }
