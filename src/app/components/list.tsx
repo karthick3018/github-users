@@ -1,6 +1,7 @@
 'use client'
 import { useState,useEffect } from 'react';
 import Link from 'next/link';
+import { Loader } from "../components/svg/loader";
 import NameCard from "../components/name_card";
 import { LIST } from '../helpers/constants';
 import { useInView } from "react-intersection-observer";
@@ -59,6 +60,7 @@ export default function List({getUsersData}:IProps) {
         </Link>
       ))}
     </ul>
+    <div className='flex justify-center'>{!users.length ? <Loader/>:''}</div>
     <div ref={ref}></div>
     </div>   
   </div>
